@@ -1,6 +1,6 @@
 {
   "name": "redux-loop-immutable",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "ImmutableJS Extensions for Redux Loop",
   "main": "lib/index.js",
   "module": "es/index.js",
