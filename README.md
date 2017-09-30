@@ -37,8 +37,7 @@ export default combineReducers({
 
 This is an ImmutableJS-optimized version of the `mergeChildRedcuers` provided by core redux-loop.
 Like that version of `mergeChildReducers`, it is a more generalized version of `combineReducers` that allows
-you to nest reducers underneath a common parent that has functionality of its own (rather than restricting the parent to simply 
-passing actions to its children like `combineReducers` does)
+you to nest reducers underneath a common parent that has functionality of its own (rather than restricting the parent to simply passing actions to its children like `combineReducers` does)
 
 * `parentResult: Immutable.Map | loop(Immutable.Map, Cmd)` &ndash; The result from the parent reducer before any child results have been applied.
 * `action: Action` &ndash; a redux action
@@ -54,12 +53,14 @@ import plainReducer from './plain-reducer';
 import { fromJS } from 'immutable'
 import pageReducerMap from './page-reducers';
 
+// a simple reducer that keeps track of your current location and nests the correct
+//child reducer for that location at state.data
+
 const initialState = fromJS({
    location: 'index'
    //data will be filled in with the result of the child reducer
 });
 
-// a simple reducer that keeps track of your current location and runs the correct child reducer at state.data
 function parentReducer(state = initialState, action){
   if(action.type !== 'LOCATION_CHANGE')
      return state;
