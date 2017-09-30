@@ -52,12 +52,14 @@ import {getModel, isLoop} from 'redux-loop';
 import reducerWithSideEffects from './reducer-with-side-effects';
 import plainReducer from './plain-reducer';
 import { fromJS } from 'immutable'
-import pageReducerMap from '.page-reducers';
+import pageReducerMap from './page-reducers';
 
 const initialState = fromJS({
    location: 'index'
+   //data will be filled in with the result of the child reducer
 });
 
+// a simple reducer that keeps track of your current location and runs the correct child reducer at state.data
 function parentReducer(state = initialState, action){
   if(action.type !== 'LOCATION_CHANGE')
      return state;
@@ -67,10 +69,16 @@ function parentReducer(state = initialState, action){
 
 export default function reducer(state, action){
   const parentResult = parentReducer(state, action);
-  const location = (isLoop(parentResult) ? getModel(parentResult) : result).get('location');
-  return mergeChildReducers(parentReducer(parentResult, action, {
-     data: pageReducerMap[location]
-  });
+  
+  let location;
+  if(isLoop(parentResult))
+    location = getModel(parentResult).get('location');
+  else
+    location = parentResult.get('location');
+   
+  const childMap = {data: pageReducerMap[location]};
+  
+  return mergeChildReducers(parentReducer(parentResult, action, childMap);
 }
 
 ```
@@ -81,7 +89,7 @@ Potential bugs, generally discussion, and proposals or RFCs should be submitted
 as issues to this repo, we'll do our best to address them quickly. We use this
 library as well and want it to be the best it can! For questions about using the
 library, [submit questions on StackOverflow](http://stackoverflow.com/questions/ask)
-with the [`redux-loop` tag](http://stackoverflow.com/questions/tagged/redux-loop-immutable).
+with the [`redux-loop` tag](http://stackoverflow.com/questions/tagged/redux-loop).
 
 ## Contributing
 
