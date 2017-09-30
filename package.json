@@ -1,0 +1,91 @@
+{
+  "name": "redux-loop-immutable",
+  "version": "0.0.0",
+  "description": "ImmutableJS Extensions for Redux Loop",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
+  "homepage": "https://github.com/redux-loop/redux-loop-immutable",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redux-loop/redux-loop-immutable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/redux-loop/redux-loop-immutable/issues"
+  },
+  "files": [
+    "dist",
+    "es",
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clear": "rimraf lib dist es",
+    "lint": "eslint --max-warnings=0 src test",
+    "test": "cross-env BABEL_ENV=commonjs jest",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "build:umd": "cross-env BABEL_ENV=es NODE_ENV=development rollup -c -i src/index.js -o dist/redux-loop-immutable.js",
+    "build:umd:min": "cross-env BABEL_ENV=es NODE_ENV=production rollup -c -i src/index.js -o dist/redux-loop-immutable.min.js",
+    "build": "yarn build:commonjs && yarn build:es && yarn build:umd && yarn build:umd:min",
+    "prebuild": "yarn run clear",
+    "prepublishOnly": "yarn lint && yarn test && yarn build"
+  },
+  "keywords": [
+    "redux",
+    "middleware",
+    "effects",
+    "side effects",
+    "elm",
+    "loop",
+    "immutable"
+  ],
+  "tags": [
+    "redux",
+    "middleware",
+    "effects",
+    "side effects",
+    "elm",
+    "loop",
+    "immutable"
+  ],
+  "author": "Bryan Wain <bryandwain@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "immutable": "^3.7.6",
+    "redux-loop": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-core": "^6.3.15",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-es3-member-expression-literals": "6.22.0",
+    "babel-plugin-transform-es3-property-literals": "6.22.0",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "cross-env": "^5.0.5",
+    "eslint": "^4.8.0",
+    "eslint-config-react-app": "^2.0.1",
+    "eslint-plugin-flowtype": "^2.37.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.4.0",
+    "immutable": "^3.7.6",
+    "jest": "^21.2.1",
+    "redux-loop": "^4.0.0",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.1",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^2.0.1"
+  },
+  "dependencies": {
+  },
+  "jest": {
+    "testRegex": "(/test/.*\\.spec.js)$"
+  }
+}
