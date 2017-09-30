@@ -53,7 +53,7 @@
   "license": "MIT",
   "peerDependencies": {
     "immutable": "^3.7.6",
-    "redux-loop": "^4.0.0"
+    "redux-loop": "^4.1.0"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -83,8 +83,7 @@
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^2.0.1"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "jest": {
     "testRegex": "(/test/.*\\.spec.js)$"
   }
