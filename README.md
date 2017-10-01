@@ -77,7 +77,7 @@ export default function reducer(state, action){
    
   const childMap = {data: pageReducerMap[location]};
   
-  return mergeChildReducers(parentReducer(parentResult, action, childMap);
+  return mergeChildReducers(parentResult, action, childMap);
 }
 
 ```
