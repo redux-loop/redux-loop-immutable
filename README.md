@@ -48,8 +48,6 @@ you to nest reducers underneath a common parent that has functionality of its ow
 ```js
 import { mergeChildReducers } from 'redux-loop-immutable';
 import {getModel, isLoop} from 'redux-loop';
-import reducerWithSideEffects from './reducer-with-side-effects';
-import plainReducer from './plain-reducer';
 import { fromJS } from 'immutable'
 import pageReducerMap from './page-reducers';
 
