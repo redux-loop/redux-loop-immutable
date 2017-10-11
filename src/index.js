@@ -5,3 +5,5 @@ export {
   mergeChildReducers,
   combineReducers
 };
+
+export default {mergeChildReducers, combineReducers};
