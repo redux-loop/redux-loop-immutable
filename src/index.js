@@ -1,9 +1,5 @@
-import combineReducers from './combine-reducers';
-import mergeChildReducers from './merge-child-reducers';
+import c from './combine-reducers';
+import m from './merge-child-reducers';
 
-export {
-  mergeChildReducers,
-  combineReducers
-};
-
-export default {mergeChildReducers, combineReducers};
+export const combineReducers = c;
+export const mergeChildReducers = m;
