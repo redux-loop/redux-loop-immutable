@@ -1,6 +1,6 @@
 # redux-loop-immutable
 
-ImmutableJS helpers for use with [Redux Loop](https://github.com/redux-loop/redux-loop)
+ImmutableJS helpers for use with [Redux Loop](https://redux-loop.js.org/)
 
 ## Installation
 

@@ -27,4 +27,12 @@ describe('combineReducers', function(){
     expect(args).toEqual([fromJS({}), action, childMap]);
   });
 
+  it('passes extra params through to mergeChildReducers', function(){
+    let childMap = {adder, multiplier};
+    let reducer = combineReducers(childMap);
+    let state = fromJS({foo: 'bar'});
+    let action = {type: 'foo'};
+    let args = reducer(state, action, 3, 4, 5);
+    expect(args).toEqual([state, action, childMap, 3, 4, 5]);
+  });
 });

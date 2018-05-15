@@ -38,7 +38,7 @@ childMap is an object mapping key names on the parent state to a child reducer.
 the values should be child reducers or null. null values will cause their keys to be removed from state
 */
 
-export default function mergeChildReducers(parentResult, action, childMap){
+export default function mergeChildReducers(parentResult, action, childMap, ...args){
   let initialState = parentResult, parentCmd;
   if(isLoop(initialState)){
     parentCmd = getCmd(initialState);
@@ -55,7 +55,7 @@ export default function mergeChildReducers(parentResult, action, childMap){
         state.delete(key);
         return;
       }
-      let currentChild = childReducer(state.get(key), action);
+      let currentChild = childReducer(state.get(key), action, ...args);
       if(isLoop(currentChild)){
         cmds.push(getCmd(currentChild));
         currentChild = getModel(currentChild);

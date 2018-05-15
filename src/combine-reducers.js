@@ -5,7 +5,7 @@ import mergeChildReducers from './merge-child-reducers';
 //simpler version of mergeChildReducers for when the parent does nothing (like app root)
 
 export default function combineReducers(childMap){
-  return (rootState = Map(), action) => {
-    return mergeChildReducers(rootState, action, childMap);
+  return (rootState = Map(), action, ...args) => {
+    return mergeChildReducers(rootState, action, childMap, ...args);
   };
 }

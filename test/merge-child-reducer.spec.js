@@ -99,4 +99,21 @@ describe('mergeChildReducers', function(){
     });
     compareLoops(result, loop(newState, Cmd.none));
   });
+
+  it('passes extra parameters through to child reducers', function(){
+    let state = fromJS({
+      foo: 'bar'
+    });
+    const r1 = (state = fromJS([]), action = {}, ...extra) => state.concat(extra);
+    const r2 = (state = 0, action = {}, extra) => state + extra;
+
+    const result = mergeChildReducers(state, {type: 'foo', value: 5}, {r1, r2}, 5, 6, 7);
+    let newState = fromJS({
+      foo: 'bar',
+      r1: [5, 6, 7],
+      r2: 5
+    });
+
+    compareLoops(result, loop(newState, Cmd.none));
+  });
 });

@@ -7,9 +7,9 @@ import commonjs from 'rollup-plugin-commonjs';
 var env = process.env.NODE_ENV
 var config = {
   output: {
-    format: 'umd'
+    format: 'umd',
+    name: 'ReduxLoopImmutable'
   },
-  name: 'ReduxLoopImmutable',
   plugins: [
     nodeResolve({
       jsnext: true
