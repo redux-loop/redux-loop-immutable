@@ -4,7 +4,7 @@ ImmutableJS helpers for use with [Redux Loop](https://redux-loop.js.org/)
 
 ## Installation
 
-React Loop Immutable requires redux-loop 4.1.0 or higher
+Redux Loop Immutable requires redux-loop 4.1.0 or higher
 
 ```
 npm install --save redux-loop-immutable
