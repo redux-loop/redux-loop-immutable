@@ -4,10 +4,10 @@ ImmutableJS helpers for use with [Redux Loop](https://redux-loop.js.org/)
 
 ## Installation
 
-Redux Loop Immutable requires redux-loop 4.1.0 or higher
+The latest Redux Loop Immutable requires the latest redux-loop version. If you need to support an older version of redux-loop, use an older version of redux-loop-immutable.
 
 ```
-npm install --save redux-loop-immutable
+yarn add redux-loop-immutable
 ```
 
 ## API
@@ -34,6 +34,8 @@ export default combineReducers({
 ```
 
 ### `mergeChildReducers(parentResult, action, childMap)`
+
+NOTE: `mergeChildReducers` is deprecated as of version 2.0.0. It will be removed in 3.0.0. `combineReducers` and `reduceReducers` (which needs no immutable helper) should cover the cases where `mergeChildReducers` is needed. If you need to use it temporarily without a console warning, use `DEPRECATED_mergeChildReducers(parentResult, action, childMap)`. This will also be removed in 3.0.0 though.
 
 This is an ImmutableJS-optimized version of the `mergeChildRedcuers` provided by core redux-loop.
 Like that version of `mergeChildReducers`, it is a more generalized version of `combineReducers` that allows
