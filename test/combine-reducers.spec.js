@@ -1,38 +1,57 @@
-import {fromJS} from 'immutable';
-import combineReducers from '../src/combine-reducers';
-import * as mergeChildReducers from '../src/merge-child-reducers';
+import { getModel } from 'redux-loop';
+import { fromJS, List } from 'immutable';
+import { combineReducers } from '../src';
 
-let adder = (state = 0, {value}) => state + value;
-let multiplier = (state = 1, {value}) => state * value;
+const reducers = {
+  counter: (state = 0) => state + 1,
+  doubler: (state) => (state ? state + state : 1),
+  fibonacci: (state = 1, action = {}) =>
+    action.previous ? action.previous + state : state,
+};
 
-describe('combineReducers', function(){
-  beforeEach(function(){
-    jest.spyOn(mergeChildReducers, 'default').mockImplementation((...args) => args);
+describe('combineReducers', () => {
+  it('works with one argument and returns correctly working reducer', () => {
+    const appReducer = combineReducers(reducers);
+
+    expect(typeof appReducer).toBe('function');
+
+    let state = getModel(appReducer());
+    expect(state).toEqual(fromJS({ counter: 1, doubler: 1, fibonacci: 1 }));
+
+    let action = {
+      type: 'NEXT FIBONACCI NUMBER',
+      previous: 0,
+    };
+    state = getModel(appReducer(state, action));
+    expect(state).toEqual(fromJS({ counter: 2, doubler: 2, fibonacci: 1 }));
+
+    action.previous = 1;
+    state = getModel(appReducer(state, action));
+    expect(state).toEqual(fromJS({ counter: 3, doubler: 4, fibonacci: 2 }));
+
+    state = getModel(appReducer(state));
+    expect(state).toEqual(fromJS({ counter: 4, doubler: 8, fibonacci: 2 }));
+
+    action.previous = 1;
+    state = getModel(appReducer(state, action));
+    expect(state).toEqual(fromJS({ counter: 5, doubler: 16, fibonacci: 3 }));
+
+    action.previous = 2;
+    state = getModel(appReducer(state, action));
+    expect(state).toEqual(fromJS({ counter: 6, doubler: 32, fibonacci: 5 }));
   });
 
-  it('returns a function that calls mergeChildReducers with the passed in state, action, and the original childMap', function(){
-    let childMap = {adder, multiplier};
-    let reducer = combineReducers(childMap);
-    let state = fromJS({foo: 'bar'});
-    let action = {type: 'foo'};
-    let args = reducer(state, action);
-    expect(args).toEqual([state, action, childMap]);
-  });
+  it('passes through extra params to each child reducer', () => {
+    const extraParamReducers = {
+      r1: (state = List([]), action, ...extra) => state.concat(extra),
+      r2: (state = 0, action, extra) => state + extra,
+    };
+    const appReducer = combineReducers(extraParamReducers);
 
-  it('defaults to an empty Map for the state', function(){
-    let childMap = {adder, multiplier};
-    let reducer = combineReducers(childMap);
-    let action = {type: 'foo'};
-    let args = reducer(undefined, action);
-    expect(args).toEqual([fromJS({}), action, childMap]);
-  });
+    let state = getModel(appReducer(undefined, {}, 5, 6));
+    expect(state).toEqual(fromJS({ r1: [5, 6], r2: 5 }));
 
-  it('passes extra params through to mergeChildReducers', function(){
-    let childMap = {adder, multiplier};
-    let reducer = combineReducers(childMap);
-    let state = fromJS({foo: 'bar'});
-    let action = {type: 'foo'};
-    let args = reducer(state, action, 3, 4, 5);
-    expect(args).toEqual([state, action, childMap, 3, 4, 5]);
+    state = getModel(appReducer(state, {}, 1, 2));
+    expect(state).toEqual(fromJS({ r1: [5, 6, 1, 2], r2: 6 }));
   });
 });

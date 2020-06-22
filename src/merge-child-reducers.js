@@ -1,4 +1,11 @@
-import {loop, isLoop, getModel, getCmd, Cmd} from 'redux-loop';
+import { loop, isLoop, getModel, getCmd, Cmd } from 'redux-loop';
+
+export default function mergeChildReducers(...args) {
+  console.warning(
+    'mergeChildReducers is deprecated. Use reduceReducers or combineReducers instead.'
+  );
+  return DEPRECATED_mergeChildReducers(...args);
+}
 
 /*
 mergeChildReducers can be used to map child reducers to keys on a parent reducer.
@@ -38,9 +45,16 @@ childMap is an object mapping key names on the parent state to a child reducer.
 the values should be child reducers or null. null values will cause their keys to be removed from state
 */
 
-export default function mergeChildReducers(parentResult, action, childMap, ...args){
-  let initialState = parentResult, parentCmd;
-  if(isLoop(initialState)){
+// eslint-disable-next-line camelcase
+export function DEPRECATED_mergeChildReducers(
+  parentResult,
+  action,
+  childMap,
+  ...args
+) {
+  let initialState = parentResult,
+    parentCmd;
+  if (isLoop(initialState)) {
     parentCmd = getCmd(initialState);
     initialState = getModel(initialState);
   }
@@ -48,26 +62,26 @@ export default function mergeChildReducers(parentResult, action, childMap, ...ar
   let keys = Object.keys(childMap);
   let cmds = parentCmd ? [parentCmd] : [];
 
-  const newState = initialState.withMutations(state => {
-    keys.forEach(key => {
+  const newState = initialState.withMutations((state) => {
+    keys.forEach((key) => {
       let childReducer = childMap[key];
-      if(!childReducer){
+      if (!childReducer) {
         state.delete(key);
         return;
       }
       let currentChild = childReducer(state.get(key), action, ...args);
-      if(isLoop(currentChild)){
+      if (isLoop(currentChild)) {
         cmds.push(getCmd(currentChild));
         currentChild = getModel(currentChild);
       }
       state.set(key, currentChild);
     });
   });
-  return loop(newState, getListCmdIfNeeded(cmds)); 
+  return loop(newState, getListCmdIfNeeded(cmds));
 }
 
 function getListCmdIfNeeded(cmds) {
-  switch(cmds.length) {
+  switch (cmds.length) {
     case 0:
       return Cmd.none;
     case 1:
