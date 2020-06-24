@@ -55,7 +55,7 @@
   "license": "MIT",
   "peerDependencies": {
     "immutable": "^3.7.6 || ^4.0.0-rc.1",
-    "redux-loop": "6.0.0"
+    "redux-loop": "^6.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
